@@ -14,7 +14,7 @@
 
 #define TXT_ERR_ARG         "Error: argument\n"
 #define TXT_ERR_FILE_CRPT   "Error: Operation file corrupted\n"
-
+// ----------------------------------------------------------------
 typedef struct s_square
 {
     char t;
@@ -22,20 +22,24 @@ typedef struct s_square
     float y;
     float w;
     float h;
-    char c
+    char c;
 } t_square;
 
+// ----------------------------------------------------------------
 typedef struct s_zone
 {
     int w;
     int h;
     char bg;
+    int total;
 } t_zone;
 
+// ----------------------------------------------------------------
 t_zone z;
 t_square s;
 char **map;
 
+// ----------------------------------------------------------------
 int ft_strlen(char *str)
 {
     int i;
@@ -46,8 +50,7 @@ int ft_strlen(char *str)
     return i;
 }
 
-
-
+// ----------------------------------------------------------------
 int pixel_status(int x, int y, t_square *s)
 {
     if (x < s->x || x > (s->x + s->w) || y < s->y || y > (s->y + s->h))
@@ -57,6 +60,7 @@ int pixel_status(int x, int y, t_square *s)
     return IN_SHAPE;
 }
 
+// ----------------------------------------------------------------
 int message_error(FILE *ptr_file, int err_type)
 {   
     if (err_type == ERR_FILE_CRPT)
@@ -82,10 +86,7 @@ int message_error(FILE *ptr_file, int err_type)
     return err_type;
 }
 
-
-
-
-
+// ----------------------------------------------------------------
 int main(int argc, char **argv)
 {
     FILE *ptr_file;
@@ -94,14 +95,28 @@ int main(int argc, char **argv)
 
     ptr_file = NULL;
 
-    if(argc == 2)
-    {
+    if(argc != 2)
         return(message_error(ptr_file, ERR_ARG));
-    }
 
-    if (fscanf("%d %d %c", &z.w, &z.h, &z.bg) == 3)
+    if ((ptr_file = fopen(argv[1], "r")) == NULL)
+        return (message_error(ptr_file, ERR_FILE_CRPT));
+
+    if (fscanf(ptr_file, "%d %d %c", &z.w, &z.h, &z.bg) != 3)
+        return (message_error(ptr_file, ERR_FILE_CRPT));
+
+    if (z.w <= 0 || z.w > 300 || z.h <= 0 || z.h > 300)    
+        return (message_error(ptr_file, ERR_FILE_CRPT));
+
+    z.total = z.w * z.h;
+    map = malloc(z.total * sizeof(char));
+    memset(map, z.bg, z.total);
+
+    while (1)
     {
-        if (z.w >)
+        res = fscanf(ptr_file, "\n%c %f %f %f %f %c", &s.t, &s.&&&&)
     }
-    return (message_error(ptr_file, ERR_FILE_CRPT));
+    
+
+
+    
 }
